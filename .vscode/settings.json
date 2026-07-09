@@ -1,0 +1,11 @@
+{
+    "rust-analyzer.check.extraArgs": [
+        "--locked"
+    ],
+    "rust-analyzer.linkedProjects": [
+        "learn-rust-1/Cargo.toml",
+        "learn-rust-crates/Cargo.toml",
+        "collections/Cargo.toml",
+        "generics/Cargo.toml",
+    ]
+}
