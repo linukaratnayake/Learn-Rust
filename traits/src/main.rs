@@ -1,4 +1,4 @@
-use traits::articles::{NewsArticle, SocialMediaPost, Summary};
+use traits::articles::{NewsArticle, SocialMediaPost, Summary, alert, breaking_news, notify};
 
 fn main() {
     // News article
@@ -27,4 +27,9 @@ fn main() {
 
     println!("Summary - {}", social1.summarize());
     println!("Author - {}", social1.summarize_author());
+
+    // Using functions that implement Summary
+    notify(&news1);
+    breaking_news(&social1);
+    alert(&social1);
 }

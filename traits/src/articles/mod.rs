@@ -38,3 +38,20 @@ impl Summary for SocialMediaPost {
         )
     }
 }
+
+// All the following function signatures are the same.
+
+pub fn notify(item: &impl Summary) {
+    println!("Notification - {}", item.summarize_author());
+}
+
+pub fn breaking_news<T: Summary>(item: &T) {
+    println!("Breaking news! - {}", item.summarize_author());
+}
+
+pub fn alert<T>(item: &T)
+where
+    T: Summary, // With `+` we can add more traits.
+{
+    println!("Alert = {}", item.summarize());
+}
