@@ -1,22 +1,22 @@
-fn add_two(item: i32) -> i32 {
+pub fn add_two(item: i32) -> i32 {
     item + 2
 }
 
-// A public function.
-// Usually, we test the public functions.
-// You are free to test private functions as well.
 pub fn greeting(name: &str) -> String {
     format!("Hello {name}, how are you?")
 }
 
 // A function that panics if the input is not within the range 1 - 100.
-fn filter_range(input: i32) -> bool {
+pub fn filter_range(input: i32) -> bool {
     if input < 1 || input > 100 {
         panic!("Out of the expected range.");
     }
 
     true
 }
+
+// Usually, we test the public functions.
+// You are free to test private functions as well.
 
 #[cfg(test)]
 mod tests {
@@ -26,6 +26,7 @@ mod tests {
 
     #[test]
     fn test_working() {
+        print_something();
         let result = add_two(5);
         assert_eq!(7, result);
     }
