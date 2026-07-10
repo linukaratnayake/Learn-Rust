@@ -1,4 +1,6 @@
-use traits::articles::{NewsArticle, SocialMediaPost, Summary, alert, breaking_news, notify};
+use traits::articles::{
+    NewsArticle, SocialMediaPost, Summary, alert, breaking_news, new_post, notify,
+};
 
 fn main() {
     // News article
@@ -32,4 +34,8 @@ fn main() {
     notify(&news1);
     breaking_news(&social1);
     alert(&social1);
+
+    // Calling a function that returns a type implementing Summary trait.
+    let social2 = new_post("I went first to the space.".to_string());
+    println!("{}", social2.summarize());
 }

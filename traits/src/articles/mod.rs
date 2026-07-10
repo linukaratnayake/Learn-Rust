@@ -40,7 +40,7 @@ impl Summary for SocialMediaPost {
 }
 
 // All the following function signatures are the same.
-
+// All take as the parameter a type that imeplements Summary trait.
 pub fn notify(item: &impl Summary) {
     println!("Notification - {}", item.summarize_author());
 }
@@ -54,4 +54,14 @@ where
     T: Summary, // With `+` we can add more traits.
 {
     println!("Alert = {}", item.summarize());
+}
+
+// Function to return a type that implements Summary trait
+pub fn new_post(message: String) -> impl Summary {
+    SocialMediaPost {
+        username: "yuri.gagarin".to_string(),
+        content: message,
+        reply: true,
+        repost: false,
+    }
 }
