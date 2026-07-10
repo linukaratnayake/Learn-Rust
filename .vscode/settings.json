@@ -7,6 +7,7 @@
         "learn-rust-crates/Cargo.toml",
         "collections/Cargo.toml",
         "generics/Cargo.toml",
-        "traits/Cargo.toml"
+        "traits/Cargo.toml",
+        "tests/Cargo.toml",
     ]
 }
