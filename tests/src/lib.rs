@@ -2,7 +2,10 @@ fn add_two(item: i32) -> i32 {
     item + 2
 }
 
-fn greeting(name: &str) -> String {
+// A public function.
+// Usually, we test the public functions.
+// You are free to test private functions as well.
+pub fn greeting(name: &str) -> String {
     format!("Hello {name}, how are you?")
 }
 
@@ -17,7 +20,7 @@ fn filter_range(input: i32) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use std::{fmt::Error, num::ParseIntError, result};
+    use std::num::ParseIntError;
 
     use super::*;
 
@@ -72,5 +75,11 @@ mod tests {
         let result = number_string.parse::<i32>();
 
         assert!(result.is_err())
+    }
+
+    // The following function is not a test,
+    // although it is within the test module.
+    fn print_something() {
+        println!("Hello there");
     }
 }
