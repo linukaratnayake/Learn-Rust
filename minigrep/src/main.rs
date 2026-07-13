@@ -6,9 +6,7 @@ use std::fs;
 use std::process;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let config = Config::build(&args).unwrap_or_else(|err| {
+    let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem with parsing arguments: {err}");
         process::exit(1);
     });
@@ -26,18 +24,22 @@ struct Config {
 }
 
 impl Config {
-    fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
+    fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
+        args.next(); // First argument is the program name, and it is ignored.
 
-        // args[0] is the program name.
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Did't get the query."),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get the file path."),
+        };
 
         let ignore_case_env = env::var("IGNORE_CASE").is_ok();
 
-        let ignore_case_cli = is_cli_ignore_case_set(&args);
+        let ignore_case_cli = is_cli_ignore_case_set(args);
 
         let ignore_case = decide_ignore_case(ignore_case_env, ignore_case_cli);
 
@@ -49,12 +51,10 @@ impl Config {
     }
 }
 
-fn is_cli_ignore_case_set(args: &[String]) -> Option<bool> {
-    if args.len() < 4 {
-        return None;
-    }
+fn is_cli_ignore_case_set(mut args: impl Iterator<Item = String>) -> Option<bool> {
+    let arg = args.next().unwrap_or_else(|| "".to_string());
 
-    let Some((prefix, suffix)) = args[3].split_once('=') else {
+    let Some((prefix, suffix)) = arg.split_once('=') else {
         return None;
     };
 
