@@ -1,3 +1,21 @@
+//! Functions containing the necessary logic for searching
+//! for a given string in a multi-line string.
+
+/// Searches for the given `query` in all the lines of `contents`.
+///
+/// # Examples
+///
+/// ```
+/// let query = "fox";
+/// let contents = "\
+/// The quick
+/// brown fox jumps over
+/// the lazy dog.";
+///
+/// let result = minigrep::search(query, contents).collect::<Vec<&str>>();
+///
+/// assert_eq!(result, vec!["brown fox jumps over"]);
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str) -> impl Iterator<Item = &'a str> {
     contents.lines().filter(move |line| line.contains(query))
 }
