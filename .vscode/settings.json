@@ -11,5 +11,6 @@
         "tests/Cargo.toml",
         "minigrep/Cargo.toml",
         "threads/Cargo.toml",
+        "async-programming/Cargo.toml",
     ]
 }
