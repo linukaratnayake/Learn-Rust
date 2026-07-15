@@ -10,5 +10,6 @@
         "traits/Cargo.toml",
         "tests/Cargo.toml",
         "minigrep/Cargo.toml",
+        "threads/Cargo.toml",
     ]
 }
