@@ -12,5 +12,6 @@
         "minigrep/Cargo.toml",
         "threads/Cargo.toml",
         "async-programming/Cargo.toml",
+        "trait-objects/Cargo.toml",
     ]
 }
