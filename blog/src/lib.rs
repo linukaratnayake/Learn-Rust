@@ -1,86 +1,112 @@
 use core::str;
 
 pub struct Post {
-    state: Option<Box<dyn State>>,
     content: String,
 }
 
 impl Post {
-    pub fn new() -> Post {
-        Post {
-            state: Some(Box::new(Draft {})),
+    pub fn new() -> DraftPost {
+        DraftPost {
             content: String::new(),
         }
     }
 
-    pub fn add_text(mut self, text: &str) {
+    // pub fn add_text(&mut self, text: &str) {
+    //     self.content.push_str(text);
+    // }
+
+    pub fn content(&self) -> &str {
+        &self.content
+    }
+
+    // pub fn request_review(&mut self) {
+    //     // Takes the current state and do the operation.
+    //     if let Some(s) = self.state.take() {
+    //         self.state = Some(s.request_review());
+    //     }
+    // }
+
+    // pub fn approve(&mut self) {
+    //     if let Some(s) = self.state.take() {
+    //         self.state = Some(s.approve());
+    //     }
+    // }
+}
+
+pub struct DraftPost {
+    content: String,
+}
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
         self.content.push_str(text);
     }
 
-    pub fn content(&self) -> &str {
-        self.state.as_ref().unwrap().content(self)
-    }
-
-    pub fn request_review(&mut self) {
-        // Takes the current state and do the operation.
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.request_review());
-        }
-    }
-
-    pub fn approve(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.approve());
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
         }
     }
 }
 
-trait State {
-    fn request_review(self: Box<Self>) -> Box<dyn State>;
-    fn approve(self: Box<Self>) -> Box<dyn State>;
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        ""
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
+    pub fn approve(self) -> Post {
+        Post {
+            content: self.content,
+        }
     }
 }
 
-struct Draft {}
+// trait State {
+//     fn request_review(self: Box<Self>) -> Box<dyn State>;
+//     fn approve(self: Box<Self>) -> Box<dyn State>;
+//     fn content<'a>(&self, post: &'a Post) -> &'a str {
+//         ""
+//     }
+// }
 
-impl State for Draft {
-    // It takes ownership of the current state, consumes it, and returns a new value.
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(PendingReview {})
-    }
+// struct Draft {}
 
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-}
+// impl State for Draft {
+//     // It takes ownership of the current state, consumes it, and returns a new value.
+//     fn request_review(self: Box<Self>) -> Box<dyn State> {
+//         Box::new(PendingReview {})
+//     }
 
-struct PendingReview {}
+//     fn approve(self: Box<Self>) -> Box<dyn State> {
+//         self
+//     }
+// }
 
-impl State for PendingReview {
-    // Takes ownership, but returns it back with `self`.
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+// struct PendingReview {}
 
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Published {})
-    }
-}
+// impl State for PendingReview {
+//     // Takes ownership, but returns it back with `self`.
+//     fn request_review(self: Box<Self>) -> Box<dyn State> {
+//         self
+//     }
 
-struct Published {}
+//     fn approve(self: Box<Self>) -> Box<dyn State> {
+//         Box::new(Published {})
+//     }
+// }
 
-impl State for Published {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+// struct Published {}
 
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+// impl State for Published {
+//     fn request_review(self: Box<Self>) -> Box<dyn State> {
+//         self
+//     }
 
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        &post.content
-    }
-}
+//     fn approve(self: Box<Self>) -> Box<dyn State> {
+//         self
+//     }
+
+//     fn content<'a>(&self, post: &'a Post) -> &'a str {
+//         &post.content
+//     }
+// }
