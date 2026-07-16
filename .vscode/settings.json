@@ -13,5 +13,6 @@
         "threads/Cargo.toml",
         "async-programming/Cargo.toml",
         "trait-objects/Cargo.toml",
+        "blog/Cargo.toml",
     ]
 }
