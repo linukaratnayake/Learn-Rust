@@ -14,5 +14,6 @@
         "async-programming/Cargo.toml",
         "trait-objects/Cargo.toml",
         "blog/Cargo.toml",
+        "advanced-rust/Cargo.toml",
     ]
 }
