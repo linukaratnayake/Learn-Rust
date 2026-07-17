@@ -1,3 +1,5 @@
+use advanced_rust::{dangerous, split_at_mut};
+
 fn main() {
     let mut normal_value = 5;
     let normal_ref = &normal_value;
@@ -42,17 +44,32 @@ fn main() {
     unsafe {
         dangerous();
     }
+
+    // Testing the working of the safe abstraction.
+    let mut v = vec![1, 2, 3, 4, 5, 6];
+
+    let r = &mut v[..];
+
+    let (a, b) = split_at_mut(r, 3);
+
+    assert_eq!(a, &mut [1, 2, 3]);
+    assert_eq!(b, &mut [4, 5, 6]);
+
+    println!("{:?}, {:?}", a, b);
+
+    // Testing extern function
+
+    // Not required to be within an `unsafe` block
+    println!("The absolute value of -3 is {}", abs(-3));
+
+    unsafe {
+        println!("The square root of 16 is {}", sqrt(16.0));
+    }
 }
 
-// The following function is an `unsafe` function.
-unsafe fn dangerous() {
-    println!("Hello, I am not unsafe.");
+unsafe extern "C" {
+    // We explicitly say it is safe, because we know `abs` does not involve any memory safety issues.
+    safe fn abs(input: i32) -> i32;
 
-    let x = 5;
-    let y = &raw const x;
-
-    // The unsafe part requires to be wrapped inside an `unsafe` block.
-    unsafe {
-        println!("Now, I am unsafe. Value - {}", *y);
-    }
+    fn sqrt(input: f64) -> f64;
 }
