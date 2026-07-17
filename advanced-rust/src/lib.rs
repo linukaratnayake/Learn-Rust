@@ -1,5 +1,8 @@
 use std::slice;
 
+static HELLO_WORLD: &str = "Hello World!";
+static mut COUNTER: u32 = 0;
+
 // The following function is an `unsafe` function.
 pub unsafe fn dangerous() {
     println!("Hello, I am not unsafe.");
@@ -26,5 +29,18 @@ pub fn split_at_mut(values: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) 
             slice::from_raw_parts_mut(ptr, mid),
             slice::from_raw_parts_mut(ptr.add(mid), len - mid),
         )
+    }
+}
+
+pub fn print_hello_world() {
+    println!("{}", HELLO_WORLD);
+}
+
+/// SAFETY: Calling this function from more than a single thread
+/// at a time is undefined behavior.
+pub fn increment_counter_and_print() {
+    unsafe {
+        COUNTER += 1;
+        println!("COUNTER - {}", *(&raw const COUNTER));
     }
 }

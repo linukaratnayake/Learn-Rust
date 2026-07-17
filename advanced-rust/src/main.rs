@@ -1,4 +1,4 @@
-use advanced_rust::{dangerous, split_at_mut};
+use advanced_rust::{dangerous, increment_counter_and_print, print_hello_world, split_at_mut};
 
 fn main() {
     let mut normal_value = 5;
@@ -65,6 +65,17 @@ fn main() {
     unsafe {
         println!("The square root of 16 is {}", sqrt(16.0));
     }
+
+    // Calling functions using static variables
+
+    // This is not unsafe.
+    print_hello_world();
+
+    // This is unsafe.
+    // SAFETY: This is only called from a single thread in `main`.
+    increment_counter_and_print();
+    increment_counter_and_print();
+    increment_counter_and_print();
 }
 
 unsafe extern "C" {
