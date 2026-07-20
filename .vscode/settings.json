@@ -15,5 +15,6 @@
         "trait-objects/Cargo.toml",
         "blog/Cargo.toml",
         "advanced-rust/Cargo.toml",
+        "web-server/Cargo.toml",
     ]
 }
